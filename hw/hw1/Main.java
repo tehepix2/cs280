@@ -3,13 +3,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String args[]) {
         // initializing game boards
-        int[][] wArray5 = { // 5 x 5 board
-            {2, 3, 4, 3, 2},
-            {3, 6, 6, 6, 3},
-            {4, 6, 8, 6, 4},
-            {3, 6, 6, 6, 3},
-            {2, 3, 4, 3, 2}
-        };
 
         int[][] wArray8 = { // 8 x 8 board; SUPER IMPORTANT DO NOT CHANGE THIS
             {2, 3, 4, 4, 4, 4, 3, 2},
@@ -146,7 +139,7 @@ public class Main {
         return weight;
     }
 
-    // returns coordinates of the lowest weight square near the selected coordinates
+    // returns a sorted list (ascending) of coordinates of the lowest weighted squares near the selected coordinates
     public static int[] checkLowestWeight(int[][] board, int x, int y) {
 
         // if this tracker is 0 after checking, that means no other moves are available
@@ -260,7 +253,7 @@ public class Main {
                 smallestCoordinates[1] = y - 2; 
             }
         }
-        // if index 2 of smallestCoordinates is 0, that means no move is available
+        // if index 8 of smallestCoordinates is 0, that means no move is available
         smallestCoordinates[2] = smallestTracker;
         return smallestCoordinates;
     }
