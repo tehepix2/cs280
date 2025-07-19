@@ -155,7 +155,7 @@ public class Main {
         return weight;
     }
 
-    // returns a sorted list (ascending) of coordinates of the lowest weighted squares near the selected coordinates
+    // returns lowest weighted square near the selected coordinates
     public static int[] findLowestWeight(int[][] board, int x, int y) {
 
         // if this tracker is 0 after checking, that means no other moves are available
