@@ -11,11 +11,15 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cstring>
+#include <fstream>
 using std::vector;
 using std::cout;
 using std::endl;
 using std::string;
-#include <cstring>
+using std::fstream;
+using std::ifstream;
+using std::cerr;
 
 bool A(int i);
 bool E(int i);
@@ -27,13 +31,31 @@ bool C(int i);
 bool L(int i);
 bool D(int i);
 
-vector <string> strings = {"a+b", "b+c", "c+d"};
-vector <string> allStrings = {"a+b", "b+c", "c+d"};
+vector <string> strings;
+vector <string> allStrings;
 
 int main() {
-   
+    ifstream file("input.txt"); 
+    
+    if (!file.is_open()) {
+        cerr << "Error: could not open file." << "\n";
+        return 0;
+    }
+
+    string line;
+
+    while (getline(file, line)) {
+        strings.push_back(line);
+        allStrings.push_back(line); 
+    }
+
+    file.close();
+
     for (size_t i = 0; i < strings.size(); ++i) {
-        if (A(i) && strings[i] == "") {
+        if (strings[i] == "") {
+            cout << "The string \"" << allStrings[i] << "\" is not in the language." << "\n";
+        }
+        else if (A(i) && strings[i] == "") {
             cout << "The string \"" << allStrings[i] << "\" is in the language." << "\n";
         }
         else {
@@ -46,7 +68,24 @@ int main() {
 }
 
 bool A(int loop) { // A -> I = E
-    cout << loop;
+    string backup = strings[loop];
+
+    if (!I(loop)) {
+        return false;
+    }
+
+    if (strings[loop].empty() || strings[loop][0] != '=') {
+        strings[loop] = backup;  
+        return false;
+    }
+    strings[loop] = strings[loop].substr(1);  
+
+    
+    if (!E(loop)) {
+        strings[loop] = backup;  
+        return false;
+    }
+
     return true;
 }
 
@@ -70,7 +109,7 @@ bool E(int loop) { // E -> P O P | P
 }
 
 bool O(int loop) { // O -> + | - | * | / | **
-    if ((strings[loop][0] == '+') || (strings[loop][0] == '-') || (strings[loop][0] == '+') || (strings[loop][0] == '+')) {
+    if ((strings[loop][0] == '+') || (strings[loop][0] == '-') || (strings[loop][0] == '/')) {
         strings[loop] = strings[loop].substr(1);
         return true;
     }
@@ -96,10 +135,7 @@ bool P(int loop) { // P -> I | L | UI | UL | (E)
     }
     strings[loop] = backup;
     if (U(loop)) {
-        if (I(loop)) {
-            return true;
-        }
-        else if (L(loop)) {
+        if (P(loop)) {
             return true;
         }
     }
