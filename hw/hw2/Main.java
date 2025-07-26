@@ -24,9 +24,6 @@ public class Main {
                 strings.add(line);
             }
 
-            for (String str : allStrings) {
-                System.out.println(str);
-            }
 
             for (int i = 0; i < strings.size(); i++) {
                 if (strings.get(i).isEmpty()) {
